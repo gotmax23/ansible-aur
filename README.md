@@ -16,6 +16,13 @@ collections:
   - name: kewlfft.aur
 ```
 
+#### Install locally for development
+If you want to test changes to the source code, run the following commands from the root of this git repository to build and install the collection:
+``` shell
+ansible-galaxy collection build --force
+ansible-galaxy collection install --force "./kewlfft-aur-$(cat galaxy.yml | grep version: | awk '{print $2}').tar.gz"
+```
+
 ## kewlfft.aur.aur Module
 Ansible module to use some Arch User Repository (AUR) helpers as well as makepkg.
 
