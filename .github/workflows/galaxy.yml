@@ -45,4 +45,4 @@ jobs:
       - name: Deploy collection
         run: |
           ansible-galaxy collection build
-          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} "./gotmax23-aur_test-$(awk '{print substr($3, 2)}' <<< ${GITHUB_REF} ).tar.gz"
+          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} "./gotmax23-aur_test-$(awk -F '/' '{print substr($3, 2)}' <<< ${GITHUB_REF} ).tar.gz"
