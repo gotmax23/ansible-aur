@@ -18,6 +18,13 @@ jobs:
         with:
           path: collections/ansible_collections/gotmax23/aur_test
 
+      - name: Ensure that `version:` in `galaxy.yml` matches `GITHUB_REF`
+        id: version
+        run: |
+          [ "$(cat galaxy.yml | grep version: | awk '{print $2}')" = $(awk -F '/' '{print substr($3, 2)}' <<< ${GITHUB_REF}) ] || exit 1
+          echo ::set-output name=version::$(awk -F '/' '{print substr($3, 2)}' <<< ${GITHUB_REF})
+
+
       - name: "Set up Python 3.9"
         uses: actions/setup-python@v2
         with:
@@ -45,4 +52,4 @@ jobs:
       - name: Deploy collection
         run: |
           ansible-galaxy collection build
-          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} "./gotmax23-aur_test-$(awk -F '/' '{print substr($3, 2)}' <<< ${GITHUB_REF} ).tar.gz"
+          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} "./gotmax23-aur_test-${{ steps.version.outputs.version }}.tar.gz"
