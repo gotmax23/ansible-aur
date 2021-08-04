@@ -7,7 +7,7 @@ name: Build and Publish Collection to Ansible Galaxy
 
 defaults:
   run:
-    working-directory: collections/ansible_collections/kewlfft/aur
+    working-directory: collections/ansible_collections/gotmax23/aur_test
 
 jobs:
   release:
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout git repo
         uses: actions/checkout@v2
         with:
-          path: collections/ansible_collections/kewlfft/aur
+          path: collections/ansible_collections/gotmax23/aur_test
 
       - name: "Set up Python 3.9"
         uses: actions/setup-python@v2
@@ -45,4 +45,4 @@ jobs:
       - name: Deploy collection
         run: |
           ansible-galaxy collection build
-          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} "./kewlfft-aur-$('{print substr($3, 2)}' <<< ${GITHUB_REF} ).tar.gz"
+          ansible-galaxy collection publish --api-key ${{ secrets.GALAXY_API_KEY }} "./gotmax23-aur_test-$('{print substr($3, 2)}' <<< ${GITHUB_REF} ).tar.gz"
